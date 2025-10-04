@@ -8,6 +8,6 @@ TeamsRouter.get("/", findAll)
 TeamsRouter.get("/:id", findOne)
 TeamsRouter.put("/:id", updateOne)
 TeamsRouter.post("/", createOne)
-TeamsRouter.delete("/id", deleteOne)
+TeamsRouter.delete("/:id", deleteOne)
 
 export default TeamsRouter

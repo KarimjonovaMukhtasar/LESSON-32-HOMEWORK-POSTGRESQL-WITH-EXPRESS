@@ -8,6 +8,6 @@ TournamentGroupsRouter.get("/", findAll)
 TournamentGroupsRouter.get("/:id", findOne)
 TournamentGroupsRouter.put("/:id", updateOne)
 TournamentGroupsRouter.post("/", createOne)
-TournamentGroupsRouter.delete("/id", deleteOne)
+TournamentGroupsRouter.delete("/:id", deleteOne)
 
 export default TournamentGroupsRouter

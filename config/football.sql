@@ -36,10 +36,14 @@ create table match_fixtures(id serial primary key,
         tournament_id int REFERENCES tournaments(id) on delete CASCADE,
         match_status varchar(20));
 select * from match_fixtures;
+
 create table players(id SERIAL PRIMARY key,
         full_name varchar(100) not null,
         date_of_birth date not null,
         position varchar(50) not null,
-        team_id int references teams(id) on delete CASCADE);
+        team_id int references teams(id) on delete CASCADE,
+        jersey_number int);
 
-select * from players;
+alter table tournament_groups RENAME COLUMN tournamnt_id TO tournament_id;
+ select * from tournament_groups;
+ 

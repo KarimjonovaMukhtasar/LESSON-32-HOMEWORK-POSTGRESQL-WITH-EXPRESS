@@ -43,38 +43,46 @@ const updateOne = async (req, res) => {
         const fields = []
         const values = []
         const clubId = await client.query(`Select * from football_clubs where id = $1`, [club_id])
-        if (clubId.rows.length === 0) {
-            return res.status(404).json({
-                message: `Not found such a club Id!`,
-                id: club_id
-            })
+        if (club_id) {
+            if (clubId.rows.length === 0) {
+                return res.status(404).json({
+                    message: `Not found such a club Id!`,
+                    id: club_id
+                })
+            }
         }
-        const groupId = await client.query(`Select * from tournament_groups where id = $1`, [group_id])
-        if (groupId.rows.length === 0) {
-            return res.status(404).json({
-                message: `Not found such a group Id!`,
-                id: group_id
-            })
+        else {
+            if (group_id) {
+                const groupId = await client.query(`Select * from tournament_groups where id = $1`, [group_id])
+                if (groupId.rows.length === 0) {
+                    return res.status(404).json({
+                        message: `Not found such a group Id!`,
+                        id: group_id
+                    })
+                }
+            }
+            else {
+                let idx = 1
+                for (const [key, value] of Object.entries(req.body)) {
+                    fields.push(`${key}=$${idx}`)
+                    values.push(value)
+                    idx++
+                }
+                values.push(req.params.id)
+                if (fields.length === 0) {
+                    return res.status(401).json({ message: `You must update at least one info of a team!` })
+                }
+                const query = `Update teams set ${fields.join(", ")} where id = $${idx} returning *`
+                const updated = await client.query(query, values)
+                if (updated.rows.length === 0) {
+                    res.status(404).json({ message: `Not found such an id of an team ${id}` })
+                }
+                return res.status(200).json({
+                    message: `Successfully updated a team`,
+                    team: updated.rows[0]
+                })
+            }
         }
-        let idx = 1
-        for (const [key, value] of Object.entries(req.body)) {
-            fields.push(`${key}=$${idx}`)
-            values.push(value)
-            idx++
-        }
-        values.push(req.params.id)
-        if (fields.length === 0) {
-            return res.status(401).json({ message: `You must update at least one info of a team!` })
-        }
-        const query = `Update teams set ${fields.join(", ")} where id = $${idx} returning *`
-        const updated = await client.query(query, values)
-        if (updated.rows.length === 0) {
-            res.status(404).json({ message: `Not found such an id of an team ${id}` })
-        }
-        return res.status(200).json({
-            message: `Successfully updated a team`,
-            team: updated.rows[0]
-        })
     }
     catch (error) {
         console.log(error)
@@ -88,7 +96,7 @@ const createOne = async (req, res) => {
     try {
         const { team_name, club_id, group_id, coach_name } = req.body
         if (team_name && club_id && group_id && coach_name) {
-            const clubId = await client.query(`Select * from clubs where id = $1`, [club_id])
+            const clubId = await client.query(`Select * from football_clubs where id = $1`, [club_id])
             if (clubId.rows.length === 0) {
                 return res.status(404).json({
                     message: `Not found such a club Id!`,
@@ -104,7 +112,7 @@ const createOne = async (req, res) => {
             }
             const body = [team_name, club_id, group_id, coach_name]
             const query = `Insert into teams (team_name, club_id, group_id, coach_name) values ($1,$2, $3, $4) returning *`
-            const neww= await client.query(query, body)
+            const neww = await client.query(query, body)
             console.log(neww.rows[0])
             return res.status(201).json({
                 message: `Successfully created a new Team`,

@@ -84,7 +84,7 @@ const createOne = async (req, res) => {
         const { full_name, date_of_birth, position, team_id, jersey_number } = req.body
         if (full_name && date_of_birth && position && team_id && jersey_number) {
             const  teamId = await client.query(`Select * from teams where id = $1`, [team_id])
-            if (userId.rows.length === 0) {
+            if (teamId.rows.length === 0) {
                 return res.status(404).json({
                     message: `Not found such a team Id!`,
                     id: team_id

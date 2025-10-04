@@ -1,4 +1,4 @@
-import  client from "../config/db.js"
+import client from "../config/db.js"
 const findAll = async (req, res) => {
     try {
         const query = `Select * from tournament_groups`
@@ -42,32 +42,36 @@ const updateOne = async (req, res) => {
         const { group_name, tournament_id } = req.body
         const fields = []
         const values = []
-        const tournamentId = await client.query(`Select * from tournaments where id = $1`, [tournament_id])
-        if (tournamentId.rows.length === 0) {
-            return res.status(404).json({
-                message: `Not found such a tournament Id!`,
-                id: tournament_id
+        let idx = 1
+        if (tournament_id) {
+            const tournamentId = await client.query(`Select * from tournaments where id = $1`, [tournament_id])
+            if (tournamentId.rows.length === 0) {
+                return res.status(404).json({
+                    message: `Not found such a tournament Id!`,
+                    id: tournament_id
+                })
+            }
+        }
+        else {
+            for (const [key, value] of Object.entries(req.body)) {
+                fields.push(`${key}=$${idx}`)
+                values.push(value)
+                idx++
+            }
+            values.push(req.params.id)
+            if (fields.length === 0) {
+                return res.status(401).json({ message: `You must update at least one info of a tour group!` })
+            }
+            const query = `Update  tournament_groups set ${fields.join(", ")} where id = $${idx} returning *`
+            const updated = await client.query(query, values)
+            if (updated.rows.length === 0) {
+                res.status(404).json({ message: `Not found such an id of an tour group ${id}` })
+            }
+            return res.status(200).json({
+                message: `Successfully updated a tour group`,
+                tourGroup: updated.rows[0]
             })
         }
-        let idx = 1
-        for (const [key, value] of Object.entries(req.body)) {
-            fields.push(`${key}=$${idx}`)
-            values.push(value)
-            idx++
-        }
-        values.push(req.params.id)
-        if (fields.length === 0) {
-            return res.status(401).json({ message: `You must update at least one info of a tour group!` })
-        }
-        const query = `Update  tournament_groups set ${fields.join(", ")} where id = $${idx} returning *`
-        const updated = await client.query(query, values)
-        if (updated.rows.length === 0) {
-            res.status(404).json({ message: `Not found such an id of an tour group ${id}` })
-        }
-        return res.status(200).json({
-            message: `Successfully updated a tour group`,
-            tourGroup: updated.rows[0]
-        })
     }
     catch (error) {
         console.log(error)

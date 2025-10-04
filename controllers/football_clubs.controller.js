@@ -42,7 +42,7 @@ const updateOne = async (req, res) => {
         const fields = []
         const values = []
         let idx = 1
-        for (const [key, value] of Object.entriesnode(req.body)) {
+        for (const [key, value] of Object.entries(req.body)) {
             fields.push(`${key}=$${idx}`)
             values.push(value)
             idx++
@@ -73,12 +73,12 @@ const createOne = async (req, res) => {
         const { club_name, city, country, founded_year} = req.body
         if (club_name && city && country && founded_year) {
             const body = [ club_name, city, country, founded_year]
-            const query = `Insert into posts ( club_name, city, country, founded_year) values ($1,$2, $3, $4) returning *`
+            const query = `Insert into football_clubs ( club_name, city, country, founded_year) values ($1,$2, $3, $4) returning *`
             const newClub = await client.query(query, body)
             console.log(newClub.rows[0])
             return res.status(201).json({
                 message: `Successfully created a new Club`,
-                club: newPost.rows[0]
+                club: newClub.rows[0]
             })
         }
     } catch (error) {

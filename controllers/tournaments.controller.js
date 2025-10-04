@@ -1,4 +1,4 @@
-import  client  from "../config/db.js"
+import client  from "../config/db.js"
 const findAll = async (req, res) => {
     try {
         const query = `Select * from tournaments`
@@ -83,6 +83,10 @@ const createOne = async (req, res) => {
                 tour: neww.rows[0]
             })
         }
+        else {
+            return res.status(400).json({
+                message: "Missing required fields: tournament_name, start_date, end_date, status",
+            });}
     } catch (error) {
         console.log(error)
         return res.status(500).json({
@@ -111,7 +115,7 @@ const filterAll = async (req, res) => {
         if (filter) {
             const offset = (page - 1) * limit
             const values = [`%${filter}%`, offset, limit]
-            const query = `Select * from  tournaments where rournament_name ilike $1 offset $2 limit $3`
+            const query = `Select * from  tournaments where tournament_name ilike $1 offset $2 limit $3`
             const result = await client.query(query, values)
             if (result.rows.length === 0) {
                 return res.status(404).json({
