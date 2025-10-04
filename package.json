@@ -1,0 +1,24 @@
+{
+  "name": "lesson-32-homework-football-game-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KarimjonovaMukhtasar/LESSON-32-HOMEWORK-POSTGRESQL-WITH-EXPRESS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/KarimjonovaMukhtasar/LESSON-32-HOMEWORK-POSTGRESQL-WITH-EXPRESS/issues"
+  },
+  "homepage": "https://github.com/KarimjonovaMukhtasar/LESSON-32-HOMEWORK-POSTGRESQL-WITH-EXPRESS#readme",
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}

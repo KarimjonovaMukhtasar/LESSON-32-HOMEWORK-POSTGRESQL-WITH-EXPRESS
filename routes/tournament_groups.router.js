@@ -10,4 +10,4 @@ TournamentGroupsRouter.put("/:id", updateOne)
 TournamentGroupsRouter.post("/", createOne)
 TournamentGroupsRouter.delete("/id", deleteOne)
 
-export default {TournamentGroupsRouter}
+export default TournamentGroupsRouter

@@ -10,4 +10,4 @@ TournamentsRouter.put("/:id", updateOne)
 TournamentsRouter.post("/", createOne)
 TournamentsRouter.delete("/id", deleteOne)
 
-export default {TournamentsRouter}
+export default TournamentsRouter

@@ -10,4 +10,4 @@ MatchFixturesRouter.post("/", createOne)
 MatchFixturesRouter.put("/:id", updateOne)
 MatchFixturesRouter.delete("/:id", deleteOne)
 
-export default {MatchFixturesRouter}
+export default MatchFixturesRouter

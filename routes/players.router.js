@@ -10,4 +10,4 @@ PlayersRouter.put("/:id", updateOne)
 PlayersRouter.post("/", createOne)
 PlayersRouter.delete("/id", deleteOne)
 
-export default {PlayersRouter}
+export default PlayersRouter

@@ -1,11 +1,12 @@
 import express from "express"
 import dotenv from "dotenv"
-import {TournamentsRouter} from ".routes/tournaments.router.js"
-import {PlayersRouter} from "./routes/players.router.js"
-import {TournamentGroupsRouter} from "./routes/tournament_groups.router.js"
-import {MatchFixturesRouter} from "./routes/match_fixtures.router.js"
-import {FootballClubsRouter} from "./routes/football_clubs.router.js"
-import {TeamsRouter} from "./routes/teams.router.js"
+import morgan from "morgan"
+import TournamentsRouter from "./routes/tournaments.router.js"
+import PlayersRouter from "./routes/players.router.js"
+import TournamentGroupsRouter from "./routes/tournament_groups.router.js"
+import MatchFixturesRouter from "./routes/match_fixtures.router.js"
+import FootballClubsRouter from "./routes/football_clubs.router.js"
+import TeamsRouter from "./routes/teams.router.js"
 
 dotenv.config()
 const app = express()
@@ -19,6 +20,6 @@ app.use("/match-fixtures", MatchFixturesRouter)
 app.use("/football-clubs", FootballClubsRouter)
 app.use("/teams", TeamsRouter)
 const PORT = process.env.PORT || 3000
-app.use(PORT, ()=>{
+app.listen(PORT, ()=>{
     console.log(`THE SERVER IS RUNNING SUCCESSFULLY ON THE PORT: ${PORT}`)
 })

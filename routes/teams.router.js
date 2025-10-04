@@ -10,4 +10,4 @@ TeamsRouter.put("/:id", updateOne)
 TeamsRouter.post("/", createOne)
 TeamsRouter.delete("/id", deleteOne)
 
-export default {TeamsRouter}
+export default TeamsRouter

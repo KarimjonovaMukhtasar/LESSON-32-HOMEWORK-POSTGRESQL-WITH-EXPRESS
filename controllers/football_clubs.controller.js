@@ -1,4 +1,4 @@
-import {client} from "../config/db.js"
+import client from "../config/db.js"
 const findAll = async (req, res) => {
     try {
         const query = `Select * from football_clubs`
@@ -42,7 +42,7 @@ const updateOne = async (req, res) => {
         const fields = []
         const values = []
         let idx = 1
-        for (const [key, value] of Object.entries(req.body)) {
+        for (const [key, value] of Object.entriesnode(req.body)) {
             fields.push(`${key}=$${idx}`)
             values.push(value)
             idx++
@@ -51,7 +51,6 @@ const updateOne = async (req, res) => {
         if (fields.length === 0) {
             return res.status(401).json({ message: `You must update at least one info of a football club!` })
         }
-        values.push(id)
         const query = `Update football_clubs set ${fields.join(", ")} where id = $${idx} returning *`
         const updatedClub = await client.query(query, values)
         if (updatedClub.rows.length === 0) {

@@ -10,4 +10,4 @@ FootballClubsRouter.put("/:id", updateOne)
 FootballClubsRouter.post("/", createOne)
 FootballClubsRouter.delete("/:id", deleteOne)
 
-export default {FootballClubsRouter}
+export default FootballClubsRouter

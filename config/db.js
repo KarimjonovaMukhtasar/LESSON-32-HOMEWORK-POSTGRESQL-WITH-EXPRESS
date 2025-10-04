@@ -7,4 +7,4 @@ const client = new Pool({
     database: "football",
     port: 5432
 })  
-export default {client}
+export default client
